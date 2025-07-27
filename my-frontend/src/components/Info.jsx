@@ -1,9 +1,17 @@
-import infoService from '../services/infos'
 
 
 const Info = ({ infos }) => {
+
+    const newsStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+    }
+    
     return (
-        <div>
+        <div style={newsStyle}>
             {infos.map(info => (
                 <div key={info.id}>
                     <h2>{info.title}</h2>
