@@ -1,6 +1,6 @@
 
 
-const Info = ({ infos }) => {
+const SingularInfo = ({ infos }) => {
 
     const newsStyle = {
     paddingTop: 10,
@@ -22,4 +22,4 @@ const Info = ({ infos }) => {
     )
 }
 
-export default Info
+export default SingularInfo

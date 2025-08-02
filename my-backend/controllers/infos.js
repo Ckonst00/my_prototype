@@ -1,20 +1,67 @@
 const infoRouter = require('express').Router()
 const Info = require('../models/info')
+const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 
-infoRouter.get('/', (request, response) => {
-    Info.find({}).then((infos) => {
-        response.json(infos)
-    })
+infoRouter.get('/', async (request, response) => {
+    const infos = await Info.find({}).populate('user', { username: 1, name: 1})
+    response.json(infos)
 })
 
-infoRouter.post('/', (request, response) => {
+const getTokenFrom = request => {  const authorization = request.get('authorization')  
+    if (authorization && authorization.startsWith('Bearer ')) {    
+        return authorization.replace('Bearer ', '')  
+    }  return null
+}
 
-    const info = new Info(request.body)
-    info.save().then((result) => {
-        response.status(201).json(result)
-    })
+infoRouter.post('/', async (request, response, next) => {
+  const body = request.body
+  
+  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+  const user = await User.findById(decodedToken.id)
+  if (!decodedToken.id) {    
+    return response.status(401).json({ error: 'token invalid' })  
+  }
+
+  if (!user) {
+    return response.status(400).json({ error: 'userId missing or not valid' })
+  }
+
+  const info = new Info({
+    title: body.title,
+    content: body.content,
+    user: user._id
+  })
+
+  try {
+    const savedInfo = await info.save()
+    user.infos = user.infos.concat(savedInfo._id)
+
+    await user.save()
+    response.status(201).json(savedInfo)
+  } catch (error) {
+    if (error.name === 'ValidationError') {
+      return response.status(400).json({ error: error.message })
+    }
+    next(error)
+  }
 })
 
+infoRouter.delete('/:id', async (request, response) => {
+
+    try {
+        await Info.findByIdAndDelete(request.params.id)
+        response.status(204).end()
+    } catch (error) {
+        if (error.name === 'CastError') {
+            return response.status(400).json({ error: 'Malformed ID'})
+        }
+    }
+})
+
+infoRouter.post('/reset', async (request, response) => {
+    await Info.deleteMany({})
+})
 
 module.exports = infoRouter
