@@ -23,6 +23,7 @@ const Info = ({ user }) => {
         content: infoContent
       }
       const returnedInfo = await infoService.create(infoObject)
+      console.log('Returned info from backend:', returnedInfo) 
       setInfos(infos.concat(returnedInfo))
       setInfoTitle('')
       setInfoContent('')

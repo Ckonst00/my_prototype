@@ -11,7 +11,7 @@ const SingularInfo = ({ infos, user }) => {
     }
     
     const handleDelete = (id, title, content) => {
-        if (window.confirm(`Haluatko varmasti poistaa ${title}\n${content}`)) {
+        if (window.confirm(`Haluatko varmasti poistaa: ${title}\n${content}`)) {
             infoService.remove(id)
         }
     }
@@ -21,7 +21,7 @@ const SingularInfo = ({ infos, user }) => {
                 <div key={info.id}>
                     <h2>{info.title} {user ? (<button onClick={() => handleDelete(info.id, info.title, info.content)}>delete</button>) : (<div></div>)}</h2>
                     <p>{info.content}</p>
-                    <p>Luonut: {info.user.username}</p>
+                    <p>Luonut: {info.user.username || 'Tuntematon'}</p>
                 </div>
                 ))}
         </div>

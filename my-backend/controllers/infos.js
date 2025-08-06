@@ -17,13 +17,13 @@ const getTokenFrom = request => {  const authorization = request.get('authorizat
 
 infoRouter.post('/', async (request, response, next) => {
   const body = request.body
-  
+
   const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
-  const user = await User.findById(decodedToken.id)
   if (!decodedToken.id) {    
     return response.status(401).json({ error: 'token invalid' })  
   }
 
+  const user = await User.findById(decodedToken.id)
   if (!user) {
     return response.status(400).json({ error: 'userId missing or not valid' })
   }
@@ -37,9 +37,12 @@ infoRouter.post('/', async (request, response, next) => {
   try {
     const savedInfo = await info.save()
     user.infos = user.infos.concat(savedInfo._id)
-
     await user.save()
-    response.status(201).json(savedInfo)
+
+    const populatedInfo = await Info.findById(savedInfo._id)
+      .populate('user', { username: 1, name: 1 })
+
+    response.status(201).json(populatedInfo)
   } catch (error) {
     if (error.name === 'ValidationError') {
       return response.status(400).json({ error: error.message })
@@ -47,6 +50,7 @@ infoRouter.post('/', async (request, response, next) => {
     next(error)
   }
 })
+
 
 infoRouter.delete('/:id', async (request, response) => {
 
