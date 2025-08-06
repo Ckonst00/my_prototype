@@ -60,8 +60,8 @@ infoRouter.delete('/:id', async (request, response) => {
     }
 })
 
-infoRouter.post('/reset', async (request, response) => {
-    await Info.deleteMany({})
+infoRouter.post('/reset', async (request, response) => { // For testing purposes!
+    await Info.deleteMany({})                            // Delete this when finished
 })
 
 module.exports = infoRouter

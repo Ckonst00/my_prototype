@@ -1,6 +1,6 @@
+import infoService from '../../services/infos'
 
-
-const SingularInfo = ({ infos }) => {
+const SingularInfo = ({ infos, user }) => {
 
     const newsStyle = {
     paddingTop: 10,
@@ -10,11 +10,16 @@ const SingularInfo = ({ infos }) => {
     marginBottom: 5
     }
     
+    const handleDelete = (id, title, content) => {
+        if (window.confirm(`Haluatko varmasti poistaa ${title}\n${content}`)) {
+            infoService.remove(id)
+        }
+    }
     return (
         <div style={newsStyle}>
             {infos.map(info => (
                 <div key={info.id}>
-                    <h2>{info.title}</h2>
+                    <h2>{info.title} {user ? (<button onClick={() => handleDelete(info.id, info.title, info.content)}>delete</button>) : (<div></div>)}</h2>
                     <p>{info.content}</p>
                 </div>
                 ))}

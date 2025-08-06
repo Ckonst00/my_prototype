@@ -42,7 +42,7 @@ const Info = ({ user }) => {
           setInfoContent={setInfoContent} 
         />
       )}
-      <SingularInfo infos={infos} />
+      <SingularInfo infos={infos} user={user}/>
     </>
   )
 }
