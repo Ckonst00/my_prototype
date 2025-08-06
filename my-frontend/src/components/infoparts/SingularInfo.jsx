@@ -21,6 +21,7 @@ const SingularInfo = ({ infos, user }) => {
                 <div key={info.id}>
                     <h2>{info.title} {user ? (<button onClick={() => handleDelete(info.id, info.title, info.content)}>delete</button>) : (<div></div>)}</h2>
                     <p>{info.content}</p>
+                    <p>Luonut: {info.user.username}</p>
                 </div>
                 ))}
         </div>
