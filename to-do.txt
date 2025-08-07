@@ -1,0 +1,18 @@
+Done
+    Project initialized
+    Frontend exists
+    Backend exists
+    Database is initialized (mongodb)
+    User can add and delete info parts
+    User can login and out
+    Only User can add new infos
+
+    INFO:
+        Info shows title, content and the user who added it
+
+Under construction
+    Home page draft
+
+Coming
+    Define user(s) rights
+    Implement react router
