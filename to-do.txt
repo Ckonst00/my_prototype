@@ -6,13 +6,18 @@ Done
     User can add and delete info parts
     User can login and out
     Only User can add new infos
+    Implemented react router
+    "Ajankohtaista" page shows title and clicking it show more details
+
 
     INFO:
         Info shows title, content and the user who added it
+
 
 Under construction
     Home page draft
 
 Coming
     Define user(s) rights
-    Implement react router
+    Style the new info form
+    Format the id in the address bar

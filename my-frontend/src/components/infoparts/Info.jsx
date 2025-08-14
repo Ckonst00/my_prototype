@@ -31,7 +31,13 @@ const Info = ({ user }) => {
       console.log('Adding a new info failed')
     }
   }
- 
+  const handleDelete = async (id, title, content) => {
+    if (window.confirm(`Haluatko varmasti poistaa: ${title}\n${content}`)) {
+      await infoService.remove(id)
+      setInfos(infos.filter(info => info.id !== id))
+    }
+  }
+
   return (
     <>
       {user && (
@@ -43,7 +49,7 @@ const Info = ({ user }) => {
           setInfoContent={setInfoContent} 
         />
       )}
-      <SingularInfo infos={infos} user={user}/>
+      <SingularInfo infos={infos} user={user} handleDelete={handleDelete}/>
     </>
   )
 }

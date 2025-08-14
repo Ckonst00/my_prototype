@@ -1,31 +1,48 @@
-import infoService from '../../services/infos'
+import { Link, useParams } from "react-router-dom"
 
-const SingularInfo = ({ infos, user }) => {
 
-    const newsStyle = {
+const SingularInfo = ({ infos, user, handleDelete }) => {
+  const { id } = useParams()
+  const newsStyle = {
     paddingTop: 10,
     paddingLeft: 2,
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
-    }
-    
-    const handleDelete = (id, title, content) => {
-        if (window.confirm(`Haluatko varmasti poistaa: ${title}\n${content}`)) {
-            infoService.remove(id)
-        }
-    }
+  }
+
+  if (id) {
+    // Detail view
+    const info = infos.find(i => i.id === id)
+    if (!info) return <p>Ei löytynyt</p>
     return (
-        <div style={newsStyle}>
-            {infos.map(info => (
-                <div key={info.id}>
-                    <h2>{info.title} {user ? (<button onClick={() => handleDelete(info.id, info.title, info.content)}>delete</button>) : (<div></div>)}</h2>
-                    <p>{info.content}</p>
-                    <p>Luonut: {info.user.username || 'Tuntematon'}</p>
-                </div>
-                ))}
-        </div>
+      <div>
+        <h2>{info.title}</h2>
+        <p>{info.content}</p>
+        <p>Luonut: {info.user.name}</p>
+      </div>
     )
+  }
+
+  // List view
+  return (
+    <div style={newsStyle}>
+      {infos.map(info => (
+        <div key={info.id}>
+          <h2>
+            <Link to={`/ajankohtaista/${info.id}`}>
+              {info.title}
+            </Link>
+            {user && (
+              <button onClick={() => handleDelete(info.id, info.title, info.content)}>
+                poista
+              </button>
+            )}
+          </h2>
+        </div>
+      ))}
+    </div>
+  )
 }
 
 export default SingularInfo

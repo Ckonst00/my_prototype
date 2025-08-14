@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 import Info from '../infoparts/Info'
 import LoginPage from './LoginPage'
 import FrontPage from './FrontPage'
@@ -34,7 +34,7 @@ const Menu = ({ user, handleLogout }) => {
     )
 }
 
-const Filler = () => (
+const Filler = () => (  // for testing
     <div>
         <p>dafsdf</p>
     </div>
@@ -44,6 +44,7 @@ const Footer = () => {
   const containerStyle = {
     background: 'grey',
     padding: '10px',
+    paddingTop: '10px,',
     textAlign: 'center',
     color: 'white',
   }
@@ -57,11 +58,12 @@ const Footer = () => {
 
 const HomePage = ({ user, handleLogin, handleLogout, username, password, setUsername, setPassword }) => {
     return (
-        <Router>
+        <div>
             <h1 style={{textAlign: 'center'}}>Kurikan Yhteismetsä</h1>
             <Menu user={user} handleLogout={handleLogout} />
             <Routes>
                 <Route path="/" element={<FrontPage />} />
+                <Route path="/ajankohtaista/:id" element={<Info user={user} />} />
                 <Route path="/ajankohtaista" element={<Info user={user} />} />
                 <Route 
                     path="/kirjautuminen" 
@@ -77,7 +79,7 @@ const HomePage = ({ user, handleLogin, handleLogout, username, password, setUser
                 />
             </Routes>
             <Footer />
-        </Router>
+        </div>
     )
 }
 
