@@ -14,12 +14,15 @@ const SingularInfo = ({ infos, user, handleDelete }) => {
   if (id) {
     // Detail view
     const info = infos.find(i => i.id === id)
+    const date = new Date(info.createdAt)
+    const formattedDate = date.toLocaleDateString()
     if (!info) return <p>Ei löytynyt</p>
     return (
       <div>
         <h2>{info.title}</h2>
         <p>{info.content}</p>
         <p>Luonut: {info.user.name}</p>
+        <p>Julkaistu: {formattedDate}</p>
       </div>
     )
   }
