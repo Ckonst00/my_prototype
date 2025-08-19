@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import loginService from './services/login'
 import infoService from './services/infos'
-import HomePage from "./components/pages/HomePage"
+import MasterPage from "./components/pages/MasterPage"
 
 
 
@@ -11,7 +11,12 @@ function App() {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
-  
+  const [infos, setInfos] = useState([])  //Get all the infos
+
+  useEffect(() => {
+    infoService.getAll().then(infos => setInfos(infos)
+    )
+  }, [])
   useEffect(() => {    
     const loggedUserJSON = window.localStorage.getItem('loggedUser')    
     if (loggedUserJSON) {      
@@ -47,17 +52,26 @@ function App() {
     window.location.reload()
   }
 
+  const handleDelete = async (id, title, content) => {
+    if (window.confirm(`Haluatko varmasti poistaa: ${title}\n${content}`)) {
+      await infoService.remove(id)
+      setInfos(infos.filter(info => info.id !== id))
+    }
+  }
 
 return (
   <>
-    <HomePage
+    <MasterPage
       user={user}
       handleLogin={handleLogin} 
       handleLogout={handleLogout}
       username={username}
       password={password}
       setUsername={setUsername}
-      setPassword={setPassword} />
+      setPassword={setPassword}
+      infos={infos}
+      setInfos={setInfos}
+      handleDelete={handleDelete} />
   </>
 )
 }

@@ -16,27 +16,33 @@ const Menu = ({ user, handleLogout }) => {
         >
       {/* Left-aligned menu items */}
       <SemanticMenu.Item as={Link} to="/">
-        etusivu
+        Etusivu
       </SemanticMenu.Item>
       <SemanticMenu.Item as={Link} to="/ajankohtaista">
-        ajankohtaista
+        Ajankohtaista
       </SemanticMenu.Item>
 
       {/* Right-aligned user info */}
       <SemanticMenu.Menu position="right">
-        {user ? (
-          <SemanticMenu.Item>
-            <em>{user.name} kirjautunut sisään</em>
-            <Button size="small" onClick={handleLogout} style={{ marginLeft: '10px' }}>
-              kirjaudu ulos
-            </Button>
-          </SemanticMenu.Item>
-        ) : (
-          <SemanticMenu.Item as={Link} to="/kirjautuminen">
-            kirjaudu sisään
-          </SemanticMenu.Item>
-        )}
-      </SemanticMenu.Menu>
+  {user ? (
+    <>
+      <SemanticMenu.Item as={Link} to="/ylläpito">
+        ylläpito
+      </SemanticMenu.Item>
+
+      <SemanticMenu.Item style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <em>{user.name} kirjautunut sisään</em>
+        <Button size="small" onClick={handleLogout}>
+          kirjaudu ulos
+        </Button>
+      </SemanticMenu.Item>
+    </>
+  ) : (
+    <SemanticMenu.Item as={Link} to="/kirjautuminen">
+      kirjaudu sisään
+    </SemanticMenu.Item>
+  )}
+</SemanticMenu.Menu>
     </SemanticMenu>
   );
 };
