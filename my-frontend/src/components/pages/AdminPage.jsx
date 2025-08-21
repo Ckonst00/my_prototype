@@ -4,22 +4,30 @@ import Info from "../infoparts/Info"
 
 const AdminPage = ({ user, infos, handleDelete, setInfos }) => {
 
+    if (!user) {
+        return (
+            <div style={{ padding: "5rem" }}>
+                <h1>404 non authorized access</h1>
+            </div>
+        )
+    }
     const wordLimit = 10
 
     const limitWords = (text, limit) => {
-    const words = text.split(" ")
-    const shortened = words.slice(0, limit).join(" ")
-    return words.length > limit ? shortened + "..." : shortened}
+        const words = text.split(" ")
+        const shortened = words.slice(0, limit).join(" ")
+        return words.length > limit ? shortened + "..." : shortened
+    }
 
     return (
-        <div style={{ padding: "6rem"}}>
-            {infos.map(info => 
-            <div id={info.id}>
-                <h1>{info.title}<button onClick={() => handleDelete(info.id, info.title, info.content)}>poista</button></h1>
-                <p>{limitWords(info.content, wordLimit)}</p>
-            </div>
-        )}
-        <Info user={user} infos={infos} setInfos={setInfos} />
+        <div style={{ padding: "6rem" }}>
+            {infos.map(info =>
+                <div id={info.id}>
+                    <h1>{info.title}<button onClick={() => handleDelete(info.id, info.title, info.content)}>poista</button></h1>
+                    <p>{limitWords(info.content, wordLimit)}</p>
+                </div>
+            )}
+            <Info user={user} infos={infos} setInfos={setInfos} />
         </div>
     )
 }

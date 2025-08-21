@@ -21,3 +21,4 @@ Coming
     Define user(s) rights
     Style the new info form
     Format the id in the address bar
+    Limit post req rates

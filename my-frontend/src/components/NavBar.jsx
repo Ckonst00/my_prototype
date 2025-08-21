@@ -1,4 +1,4 @@
-import { Menu as SemanticMenu, Button } from 'semantic-ui-react';
+import { Menu as SemanticMenu, Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 const Menu = ({ user, handleLogout }) => {
@@ -39,7 +39,7 @@ const Menu = ({ user, handleLogout }) => {
     </>
   ) : (
     <SemanticMenu.Item as={Link} to="/kirjautuminen">
-      kirjaudu sisään
+      <Icon name="sign-in" />
     </SemanticMenu.Item>
   )}
 </SemanticMenu.Menu>
